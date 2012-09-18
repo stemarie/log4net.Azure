@@ -6,7 +6,7 @@ using Microsoft.WindowsAzure.StorageClient;
 
 namespace log4net.Appender.Azure
 {
-    public class AzureTableAppender : BufferingAppenderSkeleton
+    internal class AzureTableAppender : BufferingAppenderSkeleton
     {
         private CloudStorageAccount _account;
         private CloudTableClient _client;

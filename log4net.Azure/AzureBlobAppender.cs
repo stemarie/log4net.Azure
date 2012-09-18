@@ -39,12 +39,13 @@ namespace log4net.Appender.Azure
         private void ProcessEvent(LoggingEvent loggingEvent)
         {
             CloudBlob blob = _blobDirectoryReference.GetBlobReference(Filename(loggingEvent));
-            blob.UploadText(RenderLoggingEvent(loggingEvent));
+            var xml = Utility.GetXmlString(loggingEvent);
+            blob.UploadText(xml);
         }
 
         private static string Filename(LoggingEvent loggingEvent)
         {
-            return string.Format("{0}.entry.log",
+            return string.Format("{0}.entry.log.xml",
                                  loggingEvent.TimeStamp.ToString("yyyy_MM_dd_HH_mm_ss_fffffff",
                                                                  DateTimeFormatInfo.InvariantInfo));
         }

@@ -13,7 +13,7 @@ namespace log4net.Azure.Tests
         [TestInitialize]
         public void Initialize()
         {
-            _appender = new AzureBlobAppender("UseDevelopmentStorage=true", "testLoggingTable", "testLogging");
+            _appender = new AzureBlobAppender("UseDevelopmentStorage=true", "testLoggingBlob", "testLogging");
         }
 
         [TestMethod]
