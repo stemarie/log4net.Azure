@@ -22,7 +22,7 @@ namespace log4net.Appender.Azure
             UserName = e.UserName;
 
             PartitionKey = e.LoggerName;
-            RowKey = e.TimeStamp.ToString("yyyy_MM_dd_HH_mm_ss");
+            RowKey = e.TimeStamp.ToString("yyyy_MM_dd_HH_mm_ss_fffffff");
         }
         
         public string UserName { get; set; }
