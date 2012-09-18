@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
 using System.Text;
-using Microsoft.WindowsAzure.StorageClient;
 using log4net.Core;
+using Microsoft.WindowsAzure.StorageClient;
 
 namespace log4net.Appender.Azure
 {
