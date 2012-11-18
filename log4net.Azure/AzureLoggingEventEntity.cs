@@ -13,7 +13,6 @@ namespace log4net.Appender.Azure
             Domain = e.Domain;
             Identity = e.Identity;
             Level = e.Level;
-            LocationInformation = e.LocationInformation;
             LoggerName = e.LoggerName;
             StringBuilder sb = new StringBuilder(e.Properties.Count);
             foreach (DictionaryEntry entry in e.Properties)
@@ -42,8 +41,6 @@ namespace log4net.Appender.Azure
         public string Properties { get; set; }
 
         public string LoggerName { get; set; }
-
-        public LocationInfo LocationInformation { get; set; }
 
         public Level Level { get; set; }
 
