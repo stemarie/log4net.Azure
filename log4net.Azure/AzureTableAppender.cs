@@ -1,6 +1,4 @@
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.WindowsAzure.Storage.Table.DataServices;
 using log4net.Core;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;

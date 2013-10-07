@@ -15,7 +15,7 @@ namespace log4net.Appender.Azure
             Identity = e.Identity;
             Level = e.Level;
             LoggerName = e.LoggerName;
-            StringBuilder sb = new StringBuilder(e.Properties.Count);
+            var sb = new StringBuilder(e.Properties.Count);
             foreach (DictionaryEntry entry in e.Properties)
             {
                 sb.AppendFormat("{0}:{1}", entry.Key, entry.Value);

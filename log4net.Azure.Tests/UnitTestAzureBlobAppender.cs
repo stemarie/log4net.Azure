@@ -44,7 +44,7 @@ namespace log4net.Azure.Tests
 
         private static LoggingEvent[] MakeEvents(int number)
         {
-            LoggingEvent[] result = new LoggingEvent[number];
+            var result = new LoggingEvent[number];
             for (int i = 0; i < number; i++)
             {
                 result[i] = MakeEvent();
