@@ -1,6 +1,6 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using log4net.Appender.Azure;
+using log4net.Appender;
 using log4net.Core;
 
 namespace log4net.Azure.Tests
@@ -13,7 +13,13 @@ namespace log4net.Azure.Tests
         [TestInitialize]
         public void Initialize()
         {
-            _appender = new AzureBlobAppender("UseDevelopmentStorage=true", "testLoggingBlob", "testLogging");
+            _appender = new AzureBlobAppender()
+                {
+                    ConnectionString = "UseDevelopmentStorage=true",
+                    ContainerName = "testLoggingBlob",
+                    DirectoryName = "testLogging"
+                };
+            _appender.ActivateOptions();
         }
 
         [TestMethod]

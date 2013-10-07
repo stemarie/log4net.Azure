@@ -1,9 +1,11 @@
+using System;
 using System.Linq;
+using log4net.Appender.Language;
 using log4net.Core;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 
-namespace log4net.Appender.Azure
+namespace log4net.Appender
 {
     public class AzureTableAppender : BufferingAppenderSkeleton
     {
@@ -11,21 +13,37 @@ namespace log4net.Appender.Azure
         private CloudTableClient _client;
         private CloudTable _table;
 
-        public AzureTableAppender()
+        private string _connectionString;
+
+        public string ConnectionString
         {
-            Initialize();
+            get
+            {
+                if (String.IsNullOrEmpty(_connectionString))
+                    throw new ApplicationException(Resources.AzureConnectionStringNotSpecified);
+                return _connectionString;
+            }
+            set
+            {
+                _connectionString = value;
+            }
         }
 
-        public AzureTableAppender(string connectionString, string tableName)
+        private string _tableName;
+
+        public string TableName
         {
-            ConnectionString = connectionString;
-            TableName = tableName;
-
-            Initialize();
+            get
+            {
+                if (String.IsNullOrEmpty(_tableName))
+                    throw new ApplicationException(Resources.TableNameNotSpecified);
+                return _tableName;
+            }
+            set
+            {
+                _tableName = value;
+            }
         }
-
-        public string ConnectionString { get; set; }
-        public string TableName { get; set; }
 
         protected override void SendBuffer(LoggingEvent[] events)
         {
@@ -37,10 +55,10 @@ namespace log4net.Appender.Azure
             _table.ExecuteBatch(batchOperation);
         }
 
-
-
-        private void Initialize()
+        public override void ActivateOptions()
         {
+            base.ActivateOptions();
+
             _account = CloudStorageAccount.Parse(ConnectionString);
             _client = _account.CreateCloudTableClient();
             _table = _client.GetTableReference(TableName);
