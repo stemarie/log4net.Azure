@@ -1,8 +1,9 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Threading.Tasks;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
 using log4net.Core;
-using Microsoft.WindowsAzure;
-using Microsoft.WindowsAzure.StorageClient;
 
 namespace log4net.Appender.Azure
 {
@@ -38,16 +39,17 @@ namespace log4net.Appender.Azure
 
         private void ProcessEvent(LoggingEvent loggingEvent)
         {
-            CloudBlob blob = _blobDirectoryReference.GetBlobReference(Filename(loggingEvent));
+            CloudBlockBlob blob = _blobDirectoryReference.GetBlockBlobReference(Filename(loggingEvent));
             var xml = Utility.GetXmlString(loggingEvent);
             blob.UploadText(xml);
         }
 
         private static string Filename(LoggingEvent loggingEvent)
         {
-            return string.Format("{0}.entry.log.xml",
+            return string.Format("{0}.{1}.entry.log.xml",
                                  loggingEvent.TimeStamp.ToString("yyyy_MM_dd_HH_mm_ss_fffffff",
-                                                                 DateTimeFormatInfo.InvariantInfo));
+                                                                 DateTimeFormatInfo.InvariantInfo),
+                                 Guid.NewGuid().ToString().ToLower());
         }
 
         private void Initialize()
@@ -55,7 +57,7 @@ namespace log4net.Appender.Azure
             _account = CloudStorageAccount.Parse(ConnectionString);
             _client = _account.CreateCloudBlobClient();
             _cloudBlobContainer = _client.GetContainerReference(ContainerName.ToLower());
-            _cloudBlobContainer.CreateIfNotExist();
+            _cloudBlobContainer.CreateIfNotExists();
             _blobDirectoryReference = _cloudBlobContainer.GetDirectoryReference(DirectoryName.ToLower());
         }
     }

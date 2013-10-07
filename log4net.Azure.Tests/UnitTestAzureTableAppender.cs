@@ -17,22 +17,56 @@ namespace log4net.Azure.Tests
         }
 
         [TestMethod]
-        public void Test_Appender()
+        public void Test_Table_Appender()
         {
-            _appender.DoAppend(
-                new LoggingEvent(
-                    new LoggingEventData
-                        {
-                            Domain = "testDomain",
-                            Identity = "testIdentity",
-                            Level = Level.Critical,
-                            LoggerName = "testLoggerName",
-                            Message = "testMessage",
-                            ThreadName = "testThreadName",
-                            TimeStamp = DateTime.UtcNow,
-                            UserName = "testUsername"
-                        }
-                    ));
+            var @event = MakeEvent();
+
+            _appender.DoAppend(@event);
+        }
+
+        [TestMethod]
+        public void Test_Table_Appender_Multiple_5()
+        {
+            _appender.DoAppend(MakeEvents(5));
+        }
+
+        [TestMethod]
+        public void Test_Table_Appender_Multiple_10()
+        {
+            _appender.DoAppend(MakeEvents(10));
+        }
+
+        [TestMethod]
+        public void Test_Table_Appender_Multiple_100()
+        {
+            _appender.DoAppend(MakeEvents(100));
+        }
+
+        private static LoggingEvent[] MakeEvents(int number)
+        {
+            LoggingEvent[] result = new LoggingEvent[number];
+            for (int i = 0; i < number; i++)
+            {
+                result[i] = MakeEvent();
+            }
+            return result;
+        }
+
+        private static LoggingEvent MakeEvent()
+        {
+            return new LoggingEvent(
+                new LoggingEventData
+                    {
+                        Domain = "testDomain",
+                        Identity = "testIdentity",
+                        Level = Level.Critical,
+                        LoggerName = "testLoggerName",
+                        Message = "testMessage",
+                        ThreadName = "testThreadName",
+                        TimeStamp = DateTime.UtcNow,
+                        UserName = "testUsername"
+                    }
+                );
         }
     }
 }

@@ -1,8 +1,9 @@
-using System.Data.Services.Client;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.WindowsAzure.Storage.Table.DataServices;
 using log4net.Core;
-using Microsoft.WindowsAzure;
-using Microsoft.WindowsAzure.StorageClient;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Table;
 
 namespace log4net.Appender.Azure
 {
@@ -10,6 +11,7 @@ namespace log4net.Appender.Azure
     {
         private CloudStorageAccount _account;
         private CloudTableClient _client;
+        private CloudTable _table;
 
         public AzureTableAppender()
         {
@@ -29,21 +31,22 @@ namespace log4net.Appender.Azure
 
         protected override void SendBuffer(LoggingEvent[] events)
         {
-            TableServiceContext context = _client.GetDataServiceContext();
-            Parallel.ForEach(events, e => ProcessEvent(e, context));
-            context.SaveChanges();
+            var batchOperation = new TableBatchOperation();
+            foreach (var azureLoggingEvent in events.Select(@event => new AzureLoggingEventEntity(@event)))
+            {
+                batchOperation.Insert(azureLoggingEvent);
+            }
+            _table.ExecuteBatch(batchOperation);
         }
 
-        private void ProcessEvent(LoggingEvent loggingEvent, DataServiceContext context)
-        {
-            context.AddObject(TableName, new AzureLoggingEventEntity(loggingEvent));
-        }
+
 
         private void Initialize()
         {
             _account = CloudStorageAccount.Parse(ConnectionString);
             _client = _account.CreateCloudTableClient();
-            _client.CreateTableIfNotExist(TableName);
+            _table = _client.GetTableReference(TableName);
+            _table.CreateIfNotExists();
         }
     }
 }
