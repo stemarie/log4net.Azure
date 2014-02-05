@@ -23,6 +23,9 @@ namespace log4net.Azure.console
                 Thread.Sleep(1000);
                 Console.WriteLine("Waiting {0}", i);
             }
+
+            Console.ReadLine();
+
         }
     }
 }

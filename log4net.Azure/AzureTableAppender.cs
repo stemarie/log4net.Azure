@@ -47,12 +47,23 @@ namespace log4net.Appender
 
         protected override void SendBuffer(LoggingEvent[] events)
         {
-            var batchOperation = new TableBatchOperation();
-            foreach (var azureLoggingEvent in events.Select(@event => new AzureLoggingEventEntity(@event)))
+            
+
+            //Batched ops require single partition key, group
+            //by loggername to obey requirment.
+            var grouped = events.GroupBy(evt => evt.LoggerName);
+
+            foreach (var group in grouped)
             {
-                batchOperation.Insert(azureLoggingEvent);
+                var batchOperation = new TableBatchOperation();
+                foreach (var azureLoggingEvent in group.Select(@event => new AzureLoggingEventEntity(@event)))
+                {
+                    batchOperation.Insert(azureLoggingEvent);
+                }
+                _table.ExecuteBatch(batchOperation);
             }
-            _table.ExecuteBatch(batchOperation);
+            
+            
         }
 
         public override void ActivateOptions()
