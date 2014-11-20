@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Globalization;
 using System.Threading.Tasks;
+using log4net.Appender.Extensions;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
-using log4net.Appender.Azure;
 using log4net.Appender.Language;
 using log4net.Core;
 
@@ -80,7 +80,7 @@ namespace log4net.Appender
         private void ProcessEvent(LoggingEvent loggingEvent)
         {
             CloudBlockBlob blob = _cloudBlobContainer.GetBlockBlobReference(Filename(loggingEvent, _directoryName));
-            var xml = Utility.GetXmlString(loggingEvent);
+            var xml = loggingEvent.GetXmlString();
             blob.UploadText(xml);
         }
 
