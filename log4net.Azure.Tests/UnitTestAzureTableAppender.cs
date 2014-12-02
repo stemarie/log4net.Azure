@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using log4net.Appender;
-using log4net.Appender.Azure;
 using log4net.Core;
 
 namespace log4net.Azure.Tests

@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using log4net.Appender.Extensions;
 using log4net.Appender.Language;
 using log4net.Core;
 using Microsoft.WindowsAzure.Storage;
@@ -47,12 +48,20 @@ namespace log4net.Appender
 
         protected override void SendBuffer(LoggingEvent[] events)
         {
-            var batchOperation = new TableBatchOperation();
-            foreach (var azureLoggingEvent in events.Select(@event => new AzureLoggingEventEntity(@event)))
+            var grouped = events.GroupBy(evt => evt.LoggerName);
+
+            foreach (var group in grouped)
             {
-                batchOperation.Insert(azureLoggingEvent);
+                foreach (var batch in group.Batch(100))
+                {
+                    var batchOperation = new TableBatchOperation();
+                    foreach (var azureLoggingEvent in batch.Select(@event => new AzureLoggingEventEntity(@event)))
+                    {
+                        batchOperation.Insert(azureLoggingEvent);
+                    }
+                    _table.ExecuteBatch(batchOperation);
+                }
             }
-            _table.ExecuteBatch(batchOperation);
         }
 
         public override void ActivateOptions()
