@@ -59,6 +59,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="UnitTestAzureBlobAppender.cs" />
+    <Compile Include="UnitTestAzureDynamicTableAppender.cs" />
     <Compile Include="UnitTestAzureTableAppender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

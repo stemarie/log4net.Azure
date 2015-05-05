@@ -73,9 +73,11 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AzureDynamicLoggingEventEntity.cs" />
     <Compile Include="AzureLoggingEventEntity.cs" />
     <Compile Include="AzureTableAppender.cs" />
     <Compile Include="AzureBlobAppender.cs" />
+    <Compile Include="ElasticTableEntity.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\LoggingEventExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

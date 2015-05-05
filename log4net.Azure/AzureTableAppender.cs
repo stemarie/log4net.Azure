@@ -31,6 +31,7 @@ namespace log4net.Appender
         }
 
         private string _tableName;
+        private bool _propAsColumn;
 
         public string TableName
         {
@@ -46,6 +47,12 @@ namespace log4net.Appender
             }
         }
 
+        public bool PropAsColumn
+        {
+            get { return _propAsColumn; }
+            set { _propAsColumn = value; }
+        }
+
         protected override void SendBuffer(LoggingEvent[] events)
         {
             var grouped = events.GroupBy(evt => evt.LoggerName);
@@ -55,13 +62,20 @@ namespace log4net.Appender
                 foreach (var batch in group.Batch(100))
                 {
                     var batchOperation = new TableBatchOperation();
-                    foreach (var azureLoggingEvent in batch.Select(@event => new AzureLoggingEventEntity(@event)))
+                    foreach (var azureLoggingEvent in batch.Select(GetLogEntity))
                     {
                         batchOperation.Insert(azureLoggingEvent);
                     }
                     _table.ExecuteBatch(batchOperation);
                 }
             }
+        }
+
+        private ITableEntity GetLogEntity(LoggingEvent @event)
+        {
+            return PropAsColumn
+                ? (ITableEntity) new AzureDynamicLoggingEventEntity(@event)
+                : new AzureLoggingEventEntity(@event);
         }
 
         public override void ActivateOptions()
