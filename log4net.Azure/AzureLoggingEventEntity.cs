@@ -26,6 +26,12 @@ namespace log4net.Appender
             ThreadName = e.ThreadName;
             TimeStamp = e.TimeStamp;
             UserName = e.UserName;
+            Location = e.LocationInformation.FullInfo;
+
+            if(e.ExceptionObject!=null)
+            {
+                Exception = e.ExceptionObject.ToString();
+            }
 
             PartitionKey = e.LoggerName;
             RowKey = MakeRowKey(e);
@@ -56,5 +62,9 @@ namespace log4net.Appender
         public string Identity { get; set; }
 
         public string Domain { get; set; }
+
+        public string Location { get; set; }
+
+        public string Exception { get; set; }
     }
 }
