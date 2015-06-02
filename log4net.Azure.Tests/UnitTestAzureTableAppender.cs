@@ -30,6 +30,17 @@ namespace log4net.Azure.Tests
         }
 
         [TestMethod]
+        public void Test_Message_With_Exception()
+        {
+           const string message = "Exception to follow on other line";
+           var ex = new Exception("This is the exception message");
+
+           var @event = new LoggingEvent(null, null, "testLoggerName", Level.Critical, message, ex);
+
+            _appender.DoAppend(@event);
+        }
+
+        [TestMethod]
         public void Test_Table_Appender_Multiple_5()
         {
             _appender.DoAppend(MakeEvents(5));
