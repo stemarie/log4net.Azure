@@ -14,7 +14,6 @@ namespace log4net.Appender
             Domain = e.Domain;
             Identity = e.Identity;
             Level = e.Level;
-            LoggerName = e.LoggerName;
             var sb = new StringBuilder(e.Properties.Count);
             foreach (DictionaryEntry entry in e.Properties)
             {
@@ -48,8 +47,6 @@ namespace log4net.Appender
         public string Message { get; set; }
 
         public string Properties { get; set; }
-
-        public string LoggerName { get; set; }
 
         public Level Level { get; set; }
 
