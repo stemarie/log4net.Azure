@@ -13,7 +13,7 @@ namespace log4net.Appender
         {
             Domain = e.Domain;
             Identity = e.Identity;
-            Level = e.Level;
+            Level = e.Level.ToString();
             LoggerName = e.LoggerName;
             var sb = new StringBuilder(e.Properties.Count);
             foreach (DictionaryEntry entry in e.Properties)
@@ -26,6 +26,12 @@ namespace log4net.Appender
             ThreadName = e.ThreadName;
             EventTimeStamp = e.TimeStamp;
             UserName = e.UserName;
+            Location = e.LocationInformation.FullInfo;
+
+            if(e.ExceptionObject!=null)
+            {
+                Exception = e.ExceptionObject.ToString();
+            }
 
             PartitionKey = e.LoggerName;
             RowKey = MakeRowKey(e);
@@ -51,10 +57,14 @@ namespace log4net.Appender
 
         public string LoggerName { get; set; }
 
-        public Level Level { get; set; }
+        public string Level { get; set; }
 
         public string Identity { get; set; }
 
         public string Domain { get; set; }
+
+        public string Location { get; set; }
+
+        public string Exception { get; set; }
     }
 }
