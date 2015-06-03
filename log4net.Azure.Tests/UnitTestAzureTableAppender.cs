@@ -32,10 +32,10 @@ namespace log4net.Azure.Tests
         [TestMethod]
         public void Test_Message_With_Exception()
         {
-           const string message = "Exception to follow on other line";
-           var ex = new Exception("This is the exception message");
+            const string message = "Exception to follow on other line";
+            var ex = new Exception("This is the exception message");
 
-           var @event = new LoggingEvent(null, null, "testLoggerName", Level.Critical, message, ex);
+            var @event = new LoggingEvent(null, null, "testLoggerName", Level.Critical, message, ex);
 
             _appender.DoAppend(@event);
         }
@@ -80,7 +80,8 @@ namespace log4net.Azure.Tests
                         Message = "testMessage",
                         ThreadName = "testThreadName",
                         TimeStamp = DateTime.UtcNow,
-                        UserName = "testUsername"
+                        UserName = "testUsername",
+                        LocationInfo = new LocationInfo("className", "methodName", "fileName", "lineNumber")
                     }
                 );
         }

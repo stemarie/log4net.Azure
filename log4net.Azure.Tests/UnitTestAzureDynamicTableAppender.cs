@@ -24,7 +24,7 @@ namespace log4net.Azure.Tests
         }
 
         [TestMethod]
-        public void Test_Table_Appender()
+        public void Test_DynamicTable_Appender()
         {
             var @event = MakeEvent();
 
@@ -32,19 +32,19 @@ namespace log4net.Azure.Tests
         }
 
         [TestMethod]
-        public void Test_Table_Appender_Multiple_5()
+        public void Test_DynamicTable_Appender_Multiple_5()
         {
             _appender.DoAppend(MakeEvents(5));
         }
 
         [TestMethod]
-        public void Test_Table_Appender_Multiple_10()
+        public void Test_DynamicTable_Appender_Multiple_10()
         {
             _appender.DoAppend(MakeEvents(10));
         }
 
         [TestMethod]
-        public void Test_Table_Appender_Multiple_100()
+        public void Test_DynamicTable_Appender_Multiple_100()
         {
             _appender.DoAppend(MakeEvents(100));
         }
@@ -71,7 +71,8 @@ namespace log4net.Azure.Tests
                 ThreadName = "testThreadName",
                 TimeStamp = DateTime.UtcNow,
                 UserName = "testUsername",
-                Properties = new PropertiesDictionary()
+                Properties = new PropertiesDictionary(),
+                LocationInfo = new LocationInfo("className", "methodName", "fileName", "lineNumber")
             };
 
             loggingEventData.Properties["test1"] = DateTime.UtcNow;

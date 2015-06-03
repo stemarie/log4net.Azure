@@ -14,7 +14,6 @@ namespace log4net.Appender
             Domain = e.Domain;
             Identity = e.Identity;
             Level = e.Level.ToString();
-            LoggerName = e.LoggerName;
             var sb = new StringBuilder(e.Properties.Count);
             foreach (DictionaryEntry entry in e.Properties)
             {
@@ -27,8 +26,13 @@ namespace log4net.Appender
             EventTimeStamp = e.TimeStamp;
             UserName = e.UserName;
             Location = e.LocationInformation.FullInfo;
+            ClassName = e.LocationInformation.ClassName;
+            FileName = e.LocationInformation.FileName;
+            LineNumber = e.LocationInformation.LineNumber;
+            MethodName = e.LocationInformation.MethodName;
+            StackFrames = e.LocationInformation.StackFrames;
 
-            if(e.ExceptionObject!=null)
+            if (e.ExceptionObject != null)
             {
                 Exception = e.ExceptionObject.ToString();
             }
@@ -55,8 +59,6 @@ namespace log4net.Appender
 
         public string Properties { get; set; }
 
-        public string LoggerName { get; set; }
-
         public string Level { get; set; }
 
         public string Identity { get; set; }
@@ -66,5 +68,15 @@ namespace log4net.Appender
         public string Location { get; set; }
 
         public string Exception { get; set; }
+
+        public string ClassName { get; set; }
+
+        public string FileName { get; set; }
+
+        public string LineNumber { get; set; }
+
+        public string MethodName { get; set; }
+
+        public StackFrameItem[] StackFrames { get; set; }
     }
 }
