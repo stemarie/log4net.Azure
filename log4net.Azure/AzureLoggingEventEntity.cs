@@ -22,7 +22,7 @@ namespace log4net.Appender
                 sb.AppendLine();
             }
             Properties = sb.ToString();
-            Message = e.RenderedMessage;
+            Message = e.RenderedMessage + Environment.NewLine + e.GetExceptionString();
             ThreadName = e.ThreadName;
             EventTimeStamp = e.TimeStamp;
             UserName = e.UserName;
