@@ -13,8 +13,7 @@ namespace log4net.Appender
         {
             Domain = e.Domain;
             Identity = e.Identity;
-            Level = e.Level;
-            LoggerName = e.LoggerName;
+            Level = e.Level.ToString();
             var sb = new StringBuilder(e.Properties.Count);
             foreach (DictionaryEntry entry in e.Properties)
             {
@@ -22,10 +21,21 @@ namespace log4net.Appender
                 sb.AppendLine();
             }
             Properties = sb.ToString();
-            Message = e.RenderedMessage;
+            Message = e.RenderedMessage + Environment.NewLine + e.GetExceptionString();
             ThreadName = e.ThreadName;
-            TimeStamp = e.TimeStamp;
+            EventTimeStamp = e.TimeStamp;
             UserName = e.UserName;
+            Location = e.LocationInformation.FullInfo;
+            ClassName = e.LocationInformation.ClassName;
+            FileName = e.LocationInformation.FileName;
+            LineNumber = e.LocationInformation.LineNumber;
+            MethodName = e.LocationInformation.MethodName;
+            StackFrames = e.LocationInformation.StackFrames;
+
+            if (e.ExceptionObject != null)
+            {
+                Exception = e.ExceptionObject.ToString();
+            }
 
             PartitionKey = e.LoggerName;
             RowKey = MakeRowKey(e);
@@ -41,7 +51,7 @@ namespace log4net.Appender
 
         public string UserName { get; set; }
 
-        public DateTime TimeStamp { get; set; }
+        public DateTime EventTimeStamp { get; set; }
 
         public string ThreadName { get; set; }
 
@@ -49,12 +59,24 @@ namespace log4net.Appender
 
         public string Properties { get; set; }
 
-        public string LoggerName { get; set; }
-
-        public Level Level { get; set; }
+        public string Level { get; set; }
 
         public string Identity { get; set; }
 
         public string Domain { get; set; }
+
+        public string Location { get; set; }
+
+        public string Exception { get; set; }
+
+        public string ClassName { get; set; }
+
+        public string FileName { get; set; }
+
+        public string LineNumber { get; set; }
+
+        public string MethodName { get; set; }
+
+        public StackFrameItem[] StackFrames { get; set; }
     }
 }

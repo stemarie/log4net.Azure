@@ -70,7 +70,8 @@ namespace log4net.Azure.Tests
                         Message = "testMessage",
                         ThreadName = "testThreadName",
                         TimeStamp = DateTime.UtcNow,
-                        UserName = "testUsername"
+                        UserName = "testUsername",
+                        LocationInfo = new LocationInfo("className", "methodName", "fileName", "lineNumber")
                     }
                 );
         }
