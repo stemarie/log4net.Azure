@@ -1,10 +1,11 @@
-using System;
-using System.Linq;
 using log4net.Appender.Extensions;
 using log4net.Appender.Language;
 using log4net.Core;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
+using System;
+using System.Configuration;
+using System.Linq;
 
 namespace log4net.Appender
 {
@@ -14,12 +15,20 @@ namespace log4net.Appender
         private CloudTableClient _client;
         private CloudTable _table;
 
+        public string ConnectionStringName { get; set; }
+
         private string _connectionString;
 
         public string ConnectionString
         {
             get
             {
+                if (!String.IsNullOrWhiteSpace(ConnectionStringName))
+                {
+                    var config = ConfigurationManager.ConnectionStrings[ConnectionStringName];
+                    if (config != null)
+                        return config.ConnectionString;
+                }
                 if (String.IsNullOrEmpty(_connectionString))
                     throw new ApplicationException(Resources.AzureConnectionStringNotSpecified);
                 return _connectionString;
@@ -74,7 +83,7 @@ namespace log4net.Appender
         private ITableEntity GetLogEntity(LoggingEvent @event)
         {
             return PropAsColumn
-                ? (ITableEntity) new AzureDynamicLoggingEventEntity(@event)
+                ? (ITableEntity)new AzureDynamicLoggingEventEntity(@event)
                 : new AzureLoggingEventEntity(@event);
         }
 

@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("log4net.Azure.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Karell Ste-Marie")]
 [assembly: AssemblyProduct("log4net.Azure.Tests")]
-[assembly: AssemblyCopyright("Copyright ©  2012")]
+[assembly: AssemblyCopyright("Copyright ©  2012-2015 Karell Ste-Marie")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

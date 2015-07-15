@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("log4net.Azure.console")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Hewlett-Packard Company")]
+[assembly: AssemblyCompany("Karell Ste-Marie")]
 [assembly: AssemblyProduct("log4net.Azure.console")]
-[assembly: AssemblyCopyright("Copyright © Hewlett-Packard Company 2013")]
+[assembly: AssemblyCopyright("Copyright ©  2012-2015 Karell Ste-Marie")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
