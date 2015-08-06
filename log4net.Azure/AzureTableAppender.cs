@@ -62,6 +62,13 @@ namespace log4net.Appender
             set { _propAsColumn = value; }
         }
 
+        private PartitionKeyTypeEnum _partitionKeyType = PartitionKeyTypeEnum.LoggerName;
+        public PartitionKeyTypeEnum PartitionKeyType
+        {
+            get { return _partitionKeyType; }
+            set { _partitionKeyType = value; }
+        }
+
         protected override void SendBuffer(LoggingEvent[] events)
         {
             var grouped = events.GroupBy(evt => evt.LoggerName);
@@ -83,8 +90,8 @@ namespace log4net.Appender
         private ITableEntity GetLogEntity(LoggingEvent @event)
         {
             return PropAsColumn
-                ? (ITableEntity)new AzureDynamicLoggingEventEntity(@event)
-                : new AzureLoggingEventEntity(@event);
+                ? (ITableEntity)new AzureDynamicLoggingEventEntity(@event, PartitionKeyType)
+                : new AzureLoggingEventEntity(@event, PartitionKeyType);
         }
 
         public override void ActivateOptions()

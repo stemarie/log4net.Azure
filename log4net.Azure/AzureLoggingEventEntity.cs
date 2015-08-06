@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Globalization;
 using System.Text;
 using Microsoft.WindowsAzure.Storage.Table;
 using log4net.Core;
@@ -9,7 +8,7 @@ namespace log4net.Appender
 {
     internal sealed class AzureLoggingEventEntity : TableEntity
     {
-        public AzureLoggingEventEntity(LoggingEvent e)
+        public AzureLoggingEventEntity(LoggingEvent e, PartitionKeyTypeEnum partitionKeyType)
         {
             Domain = e.Domain;
             Identity = e.Identity;
@@ -37,16 +36,8 @@ namespace log4net.Appender
                 Exception = e.ExceptionObject.ToString();
             }
 
-            PartitionKey = e.LoggerName;
-            RowKey = MakeRowKey(e);
-        }
-
-        private static string MakeRowKey(LoggingEvent loggingEvent)
-        {
-            return string.Format("{0}.{1}",
-                                 loggingEvent.TimeStamp.ToString("yyyy_MM_dd_HH_mm_ss_fffffff",
-                                                                 DateTimeFormatInfo.InvariantInfo),
-                                 Guid.NewGuid().ToString().ToLower());
+            PartitionKey = e.MakePartitionKey(partitionKeyType);
+            RowKey = e.MakeRowKey();
         }
 
         public string UserName { get; set; }

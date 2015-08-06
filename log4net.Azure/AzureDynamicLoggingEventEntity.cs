@@ -1,18 +1,18 @@
 using System;
 using System.Collections;
-using System.Globalization;
 using log4net.Core;
 
 namespace log4net.Appender
 {
     internal sealed class AzureDynamicLoggingEventEntity : ElasticTableEntity
     {
-        public AzureDynamicLoggingEventEntity(LoggingEvent e)
+        public AzureDynamicLoggingEventEntity(LoggingEvent e, PartitionKeyTypeEnum partitionKeyType)
         {
             this["Domain"] = e.Domain;
             this["Identity"] = e.Identity;
             this["Level"] = e.Level.ToString();
             this["LoggerName"] = e.LoggerName;
+            this["EventTimeStamp"] = e.TimeStamp;
             this["Message"] = e.RenderedMessage;
             this["ThreadName"] = e.ThreadName;
             this["UserName"] = e.UserName;
@@ -22,10 +22,6 @@ namespace log4net.Appender
             {
                 this["Exception"] = e.ExceptionObject.ToString();
             }
-
-            Timestamp = e.TimeStamp;
-            PartitionKey = e.LoggerName;
-            RowKey = MakeRowKey(e);
             
             foreach (DictionaryEntry entry in e.Properties)
             {
@@ -35,14 +31,10 @@ namespace log4net.Appender
                     .Replace(".", "_");
                 this[key] = entry.Value;
             }
-        }
 
-        private static string MakeRowKey(LoggingEvent loggingEvent)
-        {
-            return string.Format("{0}.{1}",
-                loggingEvent.TimeStamp.ToString("yyyy_MM_dd_HH_mm_ss_fffffff",
-                    DateTimeFormatInfo.InvariantInfo),
-                Guid.NewGuid().ToString().ToLower());
+            Timestamp = e.TimeStamp;
+            PartitionKey = e.MakePartitionKey(partitionKeyType);
+            RowKey = e.MakeRowKey();
         }
     }
 }

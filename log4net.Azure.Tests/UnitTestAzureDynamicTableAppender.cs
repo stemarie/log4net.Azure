@@ -18,7 +18,8 @@ namespace log4net.Azure.Tests
             {
                 ConnectionString = "UseDevelopmentStorage=true",
                 TableName = "testDynamicLoggingTable",
-                PropAsColumn = true
+                PropAsColumn = true,
+                PartitionKeyType = PartitionKeyTypeEnum.DateReverse
             };
             _appender.ActivateOptions();
         }

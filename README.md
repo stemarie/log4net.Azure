@@ -19,14 +19,26 @@ Every log entry ist stored in a separate row.
 	   <!-- You can specify this to make each LogProperty as separate Column in TableStorage, 
 		Default: all Custom Properties were logged into one single field -->
 	   <param name="PropAsColumn" value="true" />
+	   <!-- You can specify this to make each LogProperty as separate Column in TableStorage, 
+		Default: all Custom Properties were logged into one single field -->
+	   <param name="PropAsColumn" value="true" />
+	   <param name="PartitionKeyType" value="LoggerName" />
 	 </appender>
 	
-* <b>TableName:</b>
+* <b>TableName:</b>  
   Name of the table in Table Storage
-* <b>ConnectionString:</b>
+* <b>ConnectionString:</b>  
   the full Azure Storage connection string
-* <b>ConnectionStringName:</b>
+* <b>ConnectionStringName:</b>  
   Name of a connection string specified under connectionString
+* <b>PropAsColumn(optional):</b>  
+  Default: all properties were written in a single field(default).  
+  If you specifiy this with the value true then each custom log4net property is logged as separate column/field in the table.  
+  Remember that Table storage has a Limit of 255 Properties ([see here](https://azure.microsoft.com/en-us/documentation/articles/storage-table-design-guide/#about-the-azure-table-service)).
+* <b>PartitionKeyType(optional):</b>  
+  Default "LoggerName": (each logger gets his own partition in Table Storage)  
+  "DateReverse": order by Date Reverse to see the latest items first ([How to order elements by date reverse](http://gauravmantri.com/2012/02/17/effective-way-of-fetching-diagnostics-data-from-windows-azure-diagnostics-table-hint-use-partitionkey/))
+
 	
 ### BlobStorage
 Every log Entry is stored as separate XML file.
@@ -39,13 +51,13 @@ Every log Entry is stored as separate XML file.
       <!--<param name="ConnectionStringName" value="GlobalConfigurationString" />-->
     </appender>
 	
-* <b>ContainerName:</b>
+* <b>ContainerName:</b>  
   Name of the container in Blob Storage	
-* <b>DirectoryName:</b>
+* <b>DirectoryName:</b>  
   Name of the folder in the specified container
-* <b>ConnectionString:</b>
+* <b>ConnectionString:</b>  
   the full Azure Storage connection string
-* <b>ConnectionStringName:</b>
+* <b>ConnectionStringName:</b>  
   Name of a connection string specified under connectionString
 
 ## View Logs
