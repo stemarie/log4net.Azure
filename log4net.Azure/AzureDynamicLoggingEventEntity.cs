@@ -13,7 +13,7 @@ namespace log4net.Appender
             this["Identity"] = e.Identity;
             this["Level"] = e.Level.ToString();
             this["LoggerName"] = e.LoggerName;
-            this["Message"] = e.RenderedMessage;
+            this["Message"] = e.RenderedMessage + Environment.NewLine + e.GetExceptionString();
             this["ThreadName"] = e.ThreadName;
             this["UserName"] = e.UserName;
             this["Location"] = e.LocationInformation.FullInfo;
