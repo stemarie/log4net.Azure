@@ -89,6 +89,8 @@
     <Compile Include="ElasticTableEntity.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\LoggingEventExtensions.cs" />
+    <Compile Include="LoggingEventExtensions.cs" />
+    <Compile Include="PartitionKeyTypeEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Language\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
