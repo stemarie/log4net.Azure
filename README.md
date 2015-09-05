@@ -46,9 +46,7 @@ Every log Entry is stored as separate XML file.
     <appender name="AzureBlobAppender" type="log4net.Appender.AzureBlobAppender, log4net.Appender.Azure">
       <param name="ContainerName" value="testloggingblob"/>
       <param name="DirectoryName" value="logs"/>
-      <!-- You can either specify a connection string or use the ConnectionStringName property instead -->
       <param name="ConnectionString" value="UseDevelopmentStorage=true"/>
-      <!--<param name="ConnectionStringName" value="GlobalConfigurationString" />-->
     </appender>
 	
 * <b>ContainerName:</b>  
@@ -57,8 +55,6 @@ Every log Entry is stored as separate XML file.
   Name of the folder in the specified container
 * <b>ConnectionString:</b>  
   the full Azure Storage connection string
-* <b>ConnectionStringName:</b>  
-  Name of a connection string specified under connectionString
 
 ## View Logs
 
