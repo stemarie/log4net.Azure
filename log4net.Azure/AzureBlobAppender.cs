@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Globalization;
 using System.Threading.Tasks;
 using log4net.Appender.Extensions;
@@ -15,12 +16,19 @@ namespace log4net.Appender
         private CloudBlobClient _client;
         private CloudBlobContainer _cloudBlobContainer;
 
+        public string ConnectionStringName { get; set; }
         private string _connectionString;
 
         public string ConnectionString
         {
             get
             {
+                if (!string.IsNullOrWhiteSpace(ConnectionStringName))
+                {
+                    var config = ConfigurationManager.ConnectionStrings[ConnectionStringName];
+                    if (config != null)
+                        return config.ConnectionString;
+                }
                 if (String.IsNullOrEmpty(_connectionString))
                     throw new ApplicationException(Resources.AzureConnectionStringNotSpecified);
                 return _connectionString;
