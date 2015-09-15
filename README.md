@@ -9,7 +9,7 @@ Add To project via NuGet:
 
 ## Configuration
 ### Table Storage 
-Every log entry ist stored in a separate row.
+Every log entry is stored in a separate row.
 
 	<appender name="AzureTableAppender" type="log4net.Appender.AzureTableAppender, log4net.Appender.Azure">
 	   <param name="TableName" value="testLoggingTable"/>
