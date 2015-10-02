@@ -89,6 +89,11 @@ namespace log4net.Appender
 
         private ITableEntity GetLogEntity(LoggingEvent @event)
         {
+            if (Layout != null)
+            {
+                return new AzureLayoutLoggingEventEntity(@event, PartitionKeyType, Layout);
+            }
+
             return PropAsColumn
                 ? (ITableEntity)new AzureDynamicLoggingEventEntity(@event, PartitionKeyType)
                 : new AzureLoggingEventEntity(@event, PartitionKeyType);
