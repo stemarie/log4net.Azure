@@ -6,6 +6,7 @@ using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Configuration;
 using System.Linq;
+using Microsoft.Azure;
 
 namespace log4net.Appender
 {
@@ -28,6 +29,9 @@ namespace log4net.Appender
                     var config = ConfigurationManager.ConnectionStrings[ConnectionStringName];
                     if (config != null)
                         return config.ConnectionString;
+                    var azConfig = CloudConfigurationManager.GetSetting(ConnectionStringName);
+                    if (!string.IsNullOrWhiteSpace(azConfig)) return azConfig;
+                    throw new ApplicationException(Resources.AzureConnectionStringNotSpecified);
                 }
                 if (String.IsNullOrEmpty(_connectionString))
                     throw new ApplicationException(Resources.AzureConnectionStringNotSpecified);
