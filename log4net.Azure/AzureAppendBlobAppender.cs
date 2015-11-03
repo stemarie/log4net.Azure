@@ -87,12 +87,13 @@ namespace log4net.Appender
 
         private void ProcessEvent(LoggingEvent loggingEvent)
         {
+            bool linefeedRequired = false;
             CloudAppendBlob appendBlob = _cloudBlobContainer.GetAppendBlobReference(Filename(loggingEvent, _directoryName));
             if (!appendBlob.Exists()) appendBlob.CreateOrReplace();
-            //CloudBlockBlob blob = _cloudBlobContainer.GetBlockBlobReference(Filename(loggingEvent, _directoryName));
-            var xml = loggingEvent.GetXmlString();
+            else linefeedRequired = true;
+
+            var xml = linefeedRequired?Environment.NewLine:"" + loggingEvent.GetXmlString();
             appendBlob.AppendText(xml);
-            //blob.UploadText(xml);
         }
 
         private static string Filename(LoggingEvent loggingEvent, string directoryName)
