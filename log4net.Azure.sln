@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "log4net.Appender.Azure", "log4net.Azure\log4net.Appender.Azure.csproj", "{75570697-D850-47A4-96F6-9A79BF5FCACF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "log4net.Azure.Tests", "log4net.Azure.Tests\log4net.Azure.Tests.csproj", "{55A7FCFD-F176-4294-9098-0C66416E0DC6}"
@@ -12,6 +14,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{2B5EB0
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4D6D01BF-5514-4BEF-8B31-1F67C0C47738}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE.md = LICENSE.md
+		log4net.Appender.Azure.nuspec = log4net.Appender.Azure.nuspec
+		README.md = README.md
 	EndProjectSection
 EndProject
 Global

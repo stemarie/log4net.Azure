@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Text;
 using System.Configuration;
 using System.Globalization;
 using System.Threading.Tasks;
@@ -15,9 +17,11 @@ namespace log4net.Appender
         private CloudStorageAccount _account;
         private CloudBlobClient _client;
         private CloudBlobContainer _cloudBlobContainer;
+        private CloudAppendBlob _blob;
 
         public string ConnectionStringName { get; set; }
         private string _connectionString;
+        private string _lineFeed = "";
 
         public string ConnectionString
         {
@@ -82,25 +86,27 @@ namespace log4net.Appender
         /// </remarks>
         protected override void SendBuffer(LoggingEvent[] events)
         {
+            CloudAppendBlob _blob = _cloudBlobContainer.GetAppendBlobReference(Filename(_directoryName));
+            if (!_blob.Exists()) _blob.CreateOrReplace();
+            else _lineFeed = Environment.NewLine;
+
             Parallel.ForEach(events, ProcessEvent);
         }
 
         private void ProcessEvent(LoggingEvent loggingEvent)
         {
-            bool linefeedRequired = false;
-            CloudAppendBlob appendBlob = _cloudBlobContainer.GetAppendBlobReference(Filename(loggingEvent, _directoryName));
-            if (!appendBlob.Exists()) appendBlob.CreateOrReplace();
-            else linefeedRequired = true;
-
-            var xml = linefeedRequired?Environment.NewLine:"" + loggingEvent.GetXmlString();
-            appendBlob.AppendText(xml);
+            var xml = _lineFeed + loggingEvent.GetXmlString();
+            using (MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(xml)))
+            {
+                _blob.AppendBlock(ms);
+            }
         }
 
-        private static string Filename(LoggingEvent loggingEvent, string directoryName)
+        private static string Filename(string directoryName)
         {
             return string.Format("{0}/{1}.entry.log.xml",
                                  directoryName,
-                                 loggingEvent.TimeStamp.ToString("yyyy_MM_dd",
+                                 DateTime.Today.ToString("yyyy_MM_dd",
                                                                  DateTimeFormatInfo.InvariantInfo));
         }
 
