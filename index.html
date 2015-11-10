@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 
 <head>
@@ -34,6 +34,99 @@
             <h1>log4net.Azure</h1>
 
             <p>log4net.Azure</p>
+
+            <p>Transfer all your logs to the <a href="http://azure.microsoft.com/de-de/services/storage/">Azure Table or Blob Storage</a> via Appender for <a href="https://logging.apache.org/log4net/">log4Net</a></p>
+
+            <h2><a id="user-content-install" class="anchor" href="#install" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install</h2>
+
+            <p>
+                Add To project via NuGet:<br>
+                1. Right click on a project and click 'Manage NuGet Packages'.<br>
+                2. Search for 'log4net.Appender.Azure' and click 'Install'.
+            </p>
+
+            <h2><a id="user-content-configuration" class="anchor" href="#configuration" aria-hidden="true"><span class="octicon octicon-link"></span></a>Configuration</h2>
+
+            <h3><a id="user-content-table-storage" class="anchor" href="#table-storage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Table Storage</h3>
+
+            <p>Every log entry is stored in a separate row.</p>
+
+<pre><code>&lt;appender name="AzureTableAppender" type="log4net.Appender.AzureTableAppender, log4net.Appender.Azure"&gt;
+   &lt;param name="TableName" value="testLoggingTable"/&gt;
+   &lt;!-- You can either specify a connection string or use the ConnectionStringName property instead --&gt;
+   &lt;param name="ConnectionString" value="UseDevelopmentStorage=true"/&gt;
+   &lt;!--&lt;param name="ConnectionStringName" value="GlobalConfigurationString" /&gt;--&gt;
+   &lt;!-- You can specify this to make each LogProperty as separate Column in TableStorage, 
+    Default: all Custom Properties were logged into one single field --&gt;
+   &lt;param name="PropAsColumn" value="true" /&gt;
+   &lt;!-- You can specify this to make each LogProperty as separate Column in TableStorage, 
+    Default: all Custom Properties were logged into one single field --&gt;
+   &lt;param name="PropAsColumn" value="true" /&gt;
+   &lt;param name="PartitionKeyType" value="LoggerName" /&gt;
+ &lt;/appender&gt;
+</code></pre>
+
+            <ul>
+                <li>
+                    <b>TableName:</b><br>
+                    Name of the table in Table Storage
+                </li>
+                <li>
+                    <b>ConnectionString:</b><br>
+                    the full Azure Storage connection string
+                </li>
+                <li>
+                    <b>ConnectionStringName:</b><br>
+                    Name of a connection string specified under connectionString
+                </li>
+                <li>
+                    <b>PropAsColumn(optional):</b><br>
+                    Default: all properties were written in a single field(default).<br>
+                    If you specifiy this with the value true then each custom log4net property is logged as separate column/field in the table.<br>
+                    Remember that Table storage has a Limit of 255 Properties (<a href="https://azure.microsoft.com/en-us/documentation/articles/storage-table-design-guide/#about-the-azure-table-service">see here</a>).
+                </li>
+                <li>
+                    <b>PartitionKeyType(optional):</b><br>
+                    Default "LoggerName": (each logger gets his own partition in Table Storage)<br>
+                    "DateReverse": order by Date Reverse to see the latest items first (<a href="http://gauravmantri.com/2012/02/17/effective-way-of-fetching-diagnostics-data-from-windows-azure-diagnostics-table-hint-use-partitionkey/">How to order elements by date reverse</a>)
+                </li>
+            </ul>
+
+            <h3><a id="user-content-blobstorage" class="anchor" href="#blobstorage" aria-hidden="true"><span class="octicon octicon-link"></span></a>BlobStorage</h3>
+
+            <p>Every log Entry is stored as separate XML file.</p>
+
+<pre><code>&lt;appender name="AzureBlobAppender" type="log4net.Appender.AzureBlobAppender, log4net.Appender.Azure"&gt;
+  &lt;param name="ContainerName" value="testloggingblob"/&gt;
+  &lt;param name="DirectoryName" value="logs"/&gt;
+  &lt;!-- You can either specify a connection string or use the ConnectionStringName property instead --&gt;
+  &lt;param name="ConnectionString" value="UseDevelopmentStorage=true"/&gt;
+  &lt;!--&lt;param name="ConnectionStringName" value="GlobalConfigurationString" /&gt;--&gt;
+&lt;/appender&gt;
+</code></pre>
+
+            <ul>
+                <li>
+                    <b>ContainerName:</b><br>
+                    Name of the container in Blob Storage
+                </li>
+                <li>
+                    <b>DirectoryName:</b><br>
+                    Name of the folder in the specified container
+                </li>
+                <li>
+                    <b>ConnectionString:</b><br>
+                    the full Azure Storage connection string
+                </li>
+                <li>
+                    <b>ConnectionStringName:</b><br>
+                    Name of a connection string specified under connectionString
+                </li>
+            </ul>
+
+            <h2><a id="user-content-view-logs" class="anchor" href="#view-logs" aria-hidden="true"><span class="octicon octicon-link"></span></a>View Logs</h2>
+
+            <p>You can take a look on this <a href="http://storagetools.azurewebsites.net/">Site</a> to use one of this tools based on your selected appender.</p>
         </section>
     </div>
 
@@ -56,6 +149,15 @@
         } catch (err) { }
     </script>
 
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- log4net.Azure -->
+    <ins class="adsbygoogle"
+         style="display:inline-block;width:728px;height:90px"
+         data-ad-client="ca-pub-0155639962582658"
+         data-ad-slot="5156928626"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
 
 </body>
 </html>
