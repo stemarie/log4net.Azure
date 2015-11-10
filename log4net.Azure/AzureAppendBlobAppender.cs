@@ -17,7 +17,6 @@ namespace log4net.Appender
         private CloudStorageAccount _account;
         private CloudBlobClient _client;
         private CloudBlobContainer _cloudBlobContainer;
-        private CloudAppendBlob _blob;
 
         public string ConnectionStringName { get; set; }
         private string _connectionString;
@@ -86,8 +85,8 @@ namespace log4net.Appender
         /// </remarks>
         protected override void SendBuffer(LoggingEvent[] events)
         {
-            CloudAppendBlob _blob = _cloudBlobContainer.GetAppendBlobReference(Filename(_directoryName));
-            if (!_blob.Exists()) _blob.CreateOrReplace();
+            CloudAppendBlob appendBlob = _cloudBlobContainer.GetAppendBlobReference(Filename(_directoryName));
+            if (!appendBlob.Exists()) appendBlob.CreateOrReplace();
             else _lineFeed = Environment.NewLine;
 
             Parallel.ForEach(events, ProcessEvent);
@@ -95,10 +94,11 @@ namespace log4net.Appender
 
         private void ProcessEvent(LoggingEvent loggingEvent)
         {
+            CloudAppendBlob appendBlob = _cloudBlobContainer.GetAppendBlobReference(Filename(_directoryName));
             var xml = _lineFeed + loggingEvent.GetXmlString();
             using (MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(xml)))
             {
-                _blob.AppendBlock(ms);
+                appendBlob.AppendBlock(ms);
             }
         }
 
