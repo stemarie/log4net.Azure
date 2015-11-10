@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections;
-using System.Diagnostics;
 using System.IO;
-using System.Text;
 using Microsoft.WindowsAzure.Storage.Table;
 using log4net.Core;
 using log4net.Layout;

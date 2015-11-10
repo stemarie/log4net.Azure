@@ -44,9 +44,8 @@ namespace log4net.Appender
         }
 
         private string _tableName;
-        private bool _propAsColumn;
 
-        public string TableName
+	    public string TableName
         {
             get
             {
@@ -60,13 +59,9 @@ namespace log4net.Appender
             }
         }
 
-        public bool PropAsColumn
-        {
-            get { return _propAsColumn; }
-            set { _propAsColumn = value; }
-        }
+        public bool PropAsColumn { get; set; }
 
-        private PartitionKeyTypeEnum _partitionKeyType = PartitionKeyTypeEnum.LoggerName;
+	    private PartitionKeyTypeEnum _partitionKeyType = PartitionKeyTypeEnum.LoggerName;
         public PartitionKeyTypeEnum PartitionKeyType
         {
             get { return _partitionKeyType; }

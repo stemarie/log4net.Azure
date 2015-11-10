@@ -88,6 +88,24 @@ namespace log4net.Appender.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to not supported {0} for {1}.
+        /// </summary>
+        internal static string ElasticTableEntity_GetEntityProperty_not_supported__0__for__1_ {
+            get {
+                return ResourceManager.GetString("ElasticTableEntity_GetEntityProperty_not_supported__0__for__1_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to not supported {0}.
+        /// </summary>
+        internal static string ElasticTableEntity_GetType_not_supported__0_ {
+            get {
+                return ResourceManager.GetString("ElasticTableEntity_GetType_not_supported__0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Table name not specified.
         /// </summary>
         internal static string TableNameNotSpecified {

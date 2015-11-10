@@ -110,4 +110,10 @@
   <data name="DirectoryNameNotSpecified" xml:space="preserve">
     <value>Directory name not specified</value>
   </data>
+  <data name="ElasticTableEntity_GetEntityProperty_not_supported__0__for__1_" xml:space="preserve">
+    <value>not supported {0} for {1}</value>
+  </data>
+  <data name="ElasticTableEntity_GetType_not_supported__0_" xml:space="preserve">
+    <value>not supported {0}</value>
+  </data>
 </root>

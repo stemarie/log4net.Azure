@@ -26,6 +26,7 @@ namespace log4net.Appender
                         (DateTime.MaxValue.Ticks -
                          loggingEvent.TimeStamp.Date.AddHours(loggingEvent.TimeStamp.Hour).Ticks + 1));
                 default:
+		            // ReSharper disable once NotResolvedInText
                     throw new ArgumentOutOfRangeException("PartitionKeyType", partitionKeyType, null);
             }
         }
