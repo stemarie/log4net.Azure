@@ -61,6 +61,26 @@ Every log Entry is stored as separate XML file.
 * <b>ConnectionStringName:</b>  
   Name of a connection string specified under connectionString
 
+### AppendBlobStorage
+Every log Entry is stored as separate XML file.
+
+    <appender name="AzureAppendBlobAppender" type="log4net.Appender.AzureAppendBlobAppender, log4net.Appender.Azure">
+      <param name="ContainerName" value="testloggingblob"/>
+      <param name="DirectoryName" value="logs"/>
+      <!-- You can either specify a connection string or use the ConnectionStringName property instead -->
+      <param name="ConnectionString" value="UseDevelopmentStorage=true"/>
+      <!--<param name="ConnectionStringName" value="GlobalConfigurationString" />-->
+    </appender>
+	
+* <b>ContainerName:</b>  
+  Name of the container in Blob Storage	
+* <b>DirectoryName:</b>  
+  Name of the folder in the specified container
+* <b>ConnectionString:</b>  
+  the full Azure Storage connection string
+* <b>ConnectionStringName:</b>  
+  Name of a connection string specified under connectionString
+  
 ## View Logs
 
 You can take a look on this [Site](http://storagetools.azurewebsites.net/) to use one of this tools based on your selected appender.
