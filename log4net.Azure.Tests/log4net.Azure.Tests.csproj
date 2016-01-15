@@ -93,6 +93,7 @@
     <Compile Include="UnitTestAzureAppendBlobAppender.cs" />
     <Compile Include="UnitTestAzureBlobAppender.cs" />
     <Compile Include="UnitTestAzureDynamicTableAppender.cs" />
+    <Compile Include="UnitTestAzureQueueAppender.cs" />
     <Compile Include="UnitTestAzureTableAppender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
