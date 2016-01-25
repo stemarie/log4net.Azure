@@ -106,6 +106,15 @@ namespace log4net.Appender.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Queue name not specified.
+        /// </summary>
+        internal static string QueueNameNotSpecified {
+            get {
+                return ResourceManager.GetString("QueueNameNotSpecified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Table name not specified.
         /// </summary>
         internal static string TableNameNotSpecified {
