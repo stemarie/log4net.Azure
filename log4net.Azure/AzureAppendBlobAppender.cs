@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Text;
 using System.Configuration;
@@ -95,7 +95,7 @@ namespace log4net.Appender
         private void ProcessEvent(LoggingEvent loggingEvent)
         {
             CloudAppendBlob appendBlob = _cloudBlobContainer.GetAppendBlobReference(Filename(_directoryName));
-            var xml = _lineFeed + loggingEvent.GetXmlString();
+            var xml = _lineFeed + loggingEvent.GetXmlString(Layout);
             using (MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(xml)))
             {
                 appendBlob.AppendBlock(ms);
