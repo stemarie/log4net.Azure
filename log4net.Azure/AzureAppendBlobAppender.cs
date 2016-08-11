@@ -9,6 +9,7 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using log4net.Appender.Language;
 using log4net.Core;
+using Microsoft.Azure;
 
 namespace log4net.Appender
 {
@@ -28,9 +29,7 @@ namespace log4net.Appender
             {
                 if (!string.IsNullOrWhiteSpace(ConnectionStringName))
                 {
-                    var config = ConfigurationManager.ConnectionStrings[ConnectionStringName];
-                    if (config != null)
-                        return config.ConnectionString;
+                    return Util.GetConnectionString(ConnectionStringName);
                 }
                 if (String.IsNullOrEmpty(_connectionString))
                     throw new ApplicationException(Resources.AzureConnectionStringNotSpecified);
