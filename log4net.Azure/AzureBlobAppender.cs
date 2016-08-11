@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Configuration;
 using System.Globalization;
 using System.Threading.Tasks;
@@ -88,7 +88,7 @@ namespace log4net.Appender
         private void ProcessEvent(LoggingEvent loggingEvent)
         {
             CloudBlockBlob blob = _cloudBlobContainer.GetBlockBlobReference(Filename(loggingEvent, _directoryName));
-            var xml = loggingEvent.GetXmlString();
+            var xml = loggingEvent.GetXmlString(Layout);
             blob.UploadText(xml);
         }
 
