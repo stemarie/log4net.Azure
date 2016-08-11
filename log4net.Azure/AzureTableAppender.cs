@@ -26,12 +26,7 @@ namespace log4net.Appender
             {
                 if (!String.IsNullOrWhiteSpace(ConnectionStringName))
                 {
-                    var config = ConfigurationManager.ConnectionStrings[ConnectionStringName];
-                    if (config != null)
-                        return config.ConnectionString;
-                    var azConfig = CloudConfigurationManager.GetSetting(ConnectionStringName);
-                    if (!string.IsNullOrWhiteSpace(azConfig)) return azConfig;
-                    throw new ApplicationException(Resources.AzureConnectionStringNotSpecified);
+                    return Util.GetConnectionString(ConnectionStringName);
                 }
                 if (String.IsNullOrEmpty(_connectionString))
                     throw new ApplicationException(Resources.AzureConnectionStringNotSpecified);
@@ -42,6 +37,7 @@ namespace log4net.Appender
                 _connectionString = value;
             }
         }
+
 
         private string _tableName;
 
