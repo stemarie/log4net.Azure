@@ -4,9 +4,7 @@ using log4net.Core;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
-using System.Configuration;
 using System.Linq;
-using Microsoft.Azure;
 
 namespace log4net.Appender
 {
