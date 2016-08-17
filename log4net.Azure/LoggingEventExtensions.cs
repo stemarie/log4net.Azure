@@ -21,7 +21,7 @@ namespace log4net.Appender
                     return loggingEvent.LoggerName;
                 case PartitionKeyTypeEnum.DateReverse:
                     // substract from DateMaxValue the Tick Count of the current hour
-                    // so a Table Storage Parttition spans an hour
+                    // so a Table Storage Partition spans an hour
                     return string.Format("{0:D19}",
                         (DateTime.MaxValue.Ticks -
                          loggingEvent.TimeStamp.Date.AddHours(loggingEvent.TimeStamp.Hour).Ticks + 1));

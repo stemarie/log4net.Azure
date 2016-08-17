@@ -19,6 +19,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4D6D01BF-5514-4BEF-8B31-1F67C0C47738}"
 	ProjectSection(SolutionItems) = preProject
 		LICENSE.md = LICENSE.md
+		log4net.Appender.Azure.1.4.3.0.nupkg = log4net.Appender.Azure.1.4.3.0.nupkg
 		log4net.Appender.Azure.nuspec = log4net.Appender.Azure.nuspec
 		README.md = README.md
 	EndProjectSection
