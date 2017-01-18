@@ -64,14 +64,14 @@ namespace log4net.Appender
 
         protected override void SendBuffer(LoggingEvent[] events)
         {
-            var grouped = events.GroupBy(evt => evt.LoggerName);
+            var grouped = events.Select(GetLogEntity).GroupBy(evt => evt.PartitionKey);
 
             foreach (var group in grouped)
             {
                 foreach (var batch in group.Batch(100))
                 {
                     var batchOperation = new TableBatchOperation();
-                    foreach (var azureLoggingEvent in batch.Select(GetLogEntity))
+                    foreach (var azureLoggingEvent in batch)
                     {
                         batchOperation.Insert(azureLoggingEvent);
                     }
