@@ -88,6 +88,7 @@
     <Compile Include="AzureLayoutLoggingEventEntity.cs" />
     <Compile Include="AzureLoggingEventEntity.cs" />
     <Compile Include="AzureQueueAppender.cs" />
+    <Compile Include="AsyncAzureTableAppender.cs" />
     <Compile Include="AzureTableAppender.cs" />
     <Compile Include="AzureBlobAppender.cs" />
     <Compile Include="ElasticTableEntity.cs" />

@@ -53,6 +53,8 @@ namespace log4net.Appender
             }
         }
 
+        protected CloudTable Table {  get { return _table; } }
+
         public bool PropAsColumn { get; set; }
 
 	    private PartitionKeyTypeEnum _partitionKeyType = PartitionKeyTypeEnum.LoggerName;
@@ -80,7 +82,7 @@ namespace log4net.Appender
             }
         }
 
-        private ITableEntity GetLogEntity(LoggingEvent @event)
+        protected ITableEntity GetLogEntity(LoggingEvent @event)
         {
             if (Layout != null)
             {
