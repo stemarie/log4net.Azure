@@ -38,6 +38,13 @@ namespace log4net.Appender
 
             PartitionKey = e.MakePartitionKey(partitionKeyType);
             RowKey = e.MakeRowKey();
+            SequenceNumber = 0;
+        }
+
+        public AzureLoggingEventEntity(LoggingEvent e, PartitionKeyTypeEnum partitionKeyType, string message, int sequenceNumber) : this(e, partitionKeyType)
+        {
+            Message = message;
+            SequenceNumber = sequenceNumber;
         }
 
         public string UserName { get; set; }
@@ -69,5 +76,7 @@ namespace log4net.Appender
         public string MethodName { get; set; }
 
         public StackFrameItem[] StackFrames { get; set; }
+
+        public int SequenceNumber { get; set; }
     }
 }

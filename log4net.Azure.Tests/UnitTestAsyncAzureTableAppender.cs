@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using log4net.Appender;
 using log4net.Core;
@@ -31,6 +32,26 @@ namespace log4net.Azure.Tests
         public void Test_Table_Appender()
         {
             var @event = MakeEvent();
+
+            _appender.DoAppend(@event);
+        }
+
+        [TestMethod]
+        public void Test_GiantMessage()
+        {
+            var @event = new LoggingEvent(
+                new LoggingEventData
+                {
+                    Domain = "testDomain",
+                    Identity = "testIdentity",
+                    Level = Level.Critical,
+                    LoggerName = "testLoggerName",
+                    Message = "Long message - " + string.Join("-", Enumerable.Range(0,1024).Select(i => "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm")),
+                    ThreadName = "testThreadName",
+                    TimeStamp = DateTime.UtcNow,
+                    UserName = "testUsername",
+                    LocationInfo = new LocationInfo("className", "methodName", "fileName", "lineNumber")
+                });
 
             _appender.DoAppend(@event);
         }
