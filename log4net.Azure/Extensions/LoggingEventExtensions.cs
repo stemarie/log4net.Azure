@@ -9,8 +9,10 @@ namespace log4net.Appender.Extensions
 {
     internal static class LoggingEventExtensions
     {
-        internal static string GetXmlString(this LoggingEvent loggingEvent, ILayout layout = null)
+        
+        internal static string GetXmlString(this LoggingEvent loggingEvent, ILayout layout = null, bool includeBasicLogging = true)
         {
+             //includeBasicLogging is true for backward compatibility
             string message = loggingEvent.RenderedMessage + Environment.NewLine + loggingEvent.GetExceptionString();
             if (layout != null)
             {
@@ -19,6 +21,11 @@ namespace log4net.Appender.Extensions
                     layout.Format(w, loggingEvent);
                     message = w.ToString();
                 }
+            }
+
+            if (!includeBasicLogging)
+            {
+                return message;
             }
 
             var logXml = new XElement(
