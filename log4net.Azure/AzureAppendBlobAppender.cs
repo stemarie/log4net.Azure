@@ -73,6 +73,29 @@ namespace log4net.Appender
             }
         }
 
+
+        private string _fileName;
+
+
+        public string FileName
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(_fileName))
+                    _fileName = string.Format("{0}.entry.log.xml",
+                                          DateTime.Today.ToString("yyyy_MM_dd", DateTimeFormatInfo.InvariantInfo));
+                return _fileName;
+            }
+            set
+            {
+                _fileName = value;
+            }
+        }
+
+
+        public bool IncludeBasicLogging { get; set; }
+
+
         /// <summary>
         /// Sends the events.
         /// </summary>
@@ -82,31 +105,30 @@ namespace log4net.Appender
         /// The subclass must override this method to process the buffered events.
         /// </para>
         /// </remarks>
+        ///         
         protected override void SendBuffer(LoggingEvent[] events)
         {
-            CloudAppendBlob appendBlob = _cloudBlobContainer.GetAppendBlobReference(Filename(_directoryName));
+            CloudAppendBlob appendBlob = _cloudBlobContainer.GetAppendBlobReference(BlobName(DirectoryName, FileName));
             if (!appendBlob.Exists()) appendBlob.CreateOrReplace();
             else _lineFeed = Environment.NewLine;
 
             Parallel.ForEach(events, ProcessEvent);
         }
 
+
         private void ProcessEvent(LoggingEvent loggingEvent)
         {
-            CloudAppendBlob appendBlob = _cloudBlobContainer.GetAppendBlobReference(Filename(_directoryName));
-            var xml = _lineFeed + loggingEvent.GetXmlString(Layout);
+            CloudAppendBlob appendBlob = _cloudBlobContainer.GetAppendBlobReference(BlobName(DirectoryName, FileName));
+            var xml = _lineFeed + loggingEvent.GetXmlString(Layout, IncludeBasicLogging);
             using (MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(xml)))
             {
                 appendBlob.AppendBlock(ms);
             }
         }
 
-        private static string Filename(string directoryName)
+        private static string BlobName(string directoryName, string fileName)
         {
-            return string.Format("{0}/{1}.entry.log.xml",
-                                 directoryName,
-                                 DateTime.Today.ToString("yyyy_MM_dd",
-                                                                 DateTimeFormatInfo.InvariantInfo));
+            return string.Format("{0}/{1}", directoryName, fileName);
         }
 
         /// <summary>
