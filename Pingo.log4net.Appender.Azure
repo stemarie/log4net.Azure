@@ -1,0 +1,35 @@
+﻿<?xml version="1.0"?>
+
+<package >
+  <metadata>
+    <id>Pingo.log4net.Appender.Azure</id>
+    <version>1.0.0.0</version>
+    <title>log4net.Appender.Azure</title>
+    <authors>stemarie</authors>
+    <description>log4net Appenders for Azure Table and Blob support</description>	
+	<ProjectUrl>https://github.com/bala-selvaraj/log4net.Azure forked from https://github.com/stemarie/log4net.Azure</ProjectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+	<dependencies>
+	  <group targetFramework="net45">	
+		<dependency id="log4net"          version="2.0.5"/>
+		<dependency id="WindowsAzure.Storage"   version="6.1.0"/>
+		<dependency id="Microsoft.WindowsAzure.ConfigurationManager"   version="3.1.0"/>
+	  </group>
+    </dependencies>
+	<frameworkAssemblies>
+		<frameworkAssembly assemblyName="System"  />
+		<frameworkAssembly assemblyName="System.Core"  />
+		<frameworkAssembly assemblyName="System.Data.Services.Client"  />
+	</frameworkAssemblies>
+	
+  </metadata>
+    <files>
+		<file src="log4net.Azure\bin\Release\log4net.Appender.Azure.dll"  target="lib\net45\log4net.Appender.Azure.dll"/>
+		<file src="log4net.Azure.console\usage.txt" target="content"/>
+	</files>
+ 
+</package>
+
+
+ 
+
