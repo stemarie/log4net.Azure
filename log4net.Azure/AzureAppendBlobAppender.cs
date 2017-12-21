@@ -35,6 +35,21 @@ namespace log4net.Appender
         /// </remarks>
         private readonly static Type declaringType = typeof(AzureAppendBlobAppender);
 
+        override protected void Append(LoggingEvent loggingEvent)
+        {           
+
+            string message = loggingEvent.GetXmlString(Layout, IncludeBasicLogging);
+
+            //Making copy of loggingEvent with new Message with Layout details
+            LoggingEventData loggingEventData = loggingEvent.GetLoggingEventData();
+            loggingEventData.Message = message;
+
+            LoggingEvent newLog = new LoggingEvent(loggingEventData);            
+
+            base.Append(newLog);
+
+        }
+
         public string ConnectionString
         {
             get
@@ -206,7 +221,7 @@ namespace log4net.Appender
             {
                 foreach (var loggingEvent in events)
                 {
-                    var xml = loggingEvent.GetXmlString(Layout, IncludeBasicLogging);
+                    var xml = loggingEvent.RenderedMessage;
 
                     memoryStream.Write(Encoding.UTF8.GetBytes(xml), 0, xml.Length);
 
