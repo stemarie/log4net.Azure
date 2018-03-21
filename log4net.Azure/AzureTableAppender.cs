@@ -67,6 +67,17 @@ namespace log4net.Appender
 					foreach (var azureLoggingEvent in batch.Select(GetLogEntity)) {
 						batchOperation.Insert(azureLoggingEvent);
 					}
+
+					// Make sure all partition keys are the same
+					// Notice that means that when using DateReverse for Partition Keys, some partitions
+					// may span more then one hour if they happen to cross over at the right mark
+					if (batchOperation.Count > 0) {
+						var key = batchOperation[0].Entity.PartitionKey;
+
+						foreach (var op in batchOperation) {
+							op.Entity.PartitionKey = key;
+						}
+					}
 					_table.ExecuteBatchAsync(batchOperation).Wait(Util.TIMEOUT);
 				}
 			}
