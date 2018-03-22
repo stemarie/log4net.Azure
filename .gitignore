@@ -164,3 +164,4 @@ pip-log.txt
 
 #NuGet exe
 .nuget/NuGet.exe
+/.vs/log4net.Azure/v15/Server/sqlite3

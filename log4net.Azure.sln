@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2002
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "log4net.Appender.Azure", "log4net.Azure\log4net.Appender.Azure.csproj", "{75570697-D850-47A4-96F6-9A79BF5FCACF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "log4net.Appender.Azure", "log4net.Azure\log4net.Appender.Azure.csproj", "{75570697-D850-47A4-96F6-9A79BF5FCACF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "log4net.Azure.Tests", "log4net.Azure.Tests\log4net.Azure.Tests.csproj", "{55A7FCFD-F176-4294-9098-0C66416E0DC6}"
 EndProject
@@ -30,8 +30,8 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{75570697-D850-47A4-96F6-9A79BF5FCACF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{75570697-D850-47A4-96F6-9A79BF5FCACF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75570697-D850-47A4-96F6-9A79BF5FCACF}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{75570697-D850-47A4-96F6-9A79BF5FCACF}.Debug|Any CPU.Build.0 = Release|Any CPU
 		{75570697-D850-47A4-96F6-9A79BF5FCACF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75570697-D850-47A4-96F6-9A79BF5FCACF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{55A7FCFD-F176-4294-9098-0C66416E0DC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -45,5 +45,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1479BC50-676A-4B43-BBF0-279D608380E3}
 	EndGlobalSection
 EndGlobal
