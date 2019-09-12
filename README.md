@@ -20,9 +20,6 @@ Every log entry is stored in a separate row.
 	   <!-- You can specify this to make each LogProperty as separate Column in TableStorage, 
 		Default: all Custom Properties were logged into one single field -->
 	   <param name="PropAsColumn" value="true" />
-	   <!-- You can specify this to make each LogProperty as separate Column in TableStorage, 
-		Default: all Custom Properties were logged into one single field -->
-	   <param name="PropAsColumn" value="true" />
 	   <param name="PartitionKeyType" value="LoggerName" />
 	 </appender>
 	
