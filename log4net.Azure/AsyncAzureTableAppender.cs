@@ -25,11 +25,12 @@ namespace log4net.Appender
         public int RetryCount { get; set; } = 5;
         public TimeSpan RetryWait { get; set; } = new TimeSpan(0, 0, 5);
         public TimeSpan FlushInterval { get; set; } = new TimeSpan(0, 1, 0);
+        public int MaxMessageSize { get; set; } = 16000;
 
         protected override void SendBuffer(LoggingEvent[] events)
         {
             // build chunks of no more than 100 each of which share the same partition key
-            var chunks = events.Select(GetLogEntity).GroupBy(e => e.PartitionKey).SelectMany(i => i.Batch(100)).ToList();
+            var chunks = events.SelectMany(GetLogEntities).GroupBy(e => e.PartitionKey).SelectMany(i => i.Batch(100)).ToList();
             var tasks = chunks.Select(chunk => Task.Run(async () => await Send(chunk))).ToList();
 
             // remember the tasks
@@ -122,6 +123,60 @@ namespace log4net.Appender
             LogLog.Debug(typeof(AsyncAzureTableAppender), string.Format("Waiting on {0} outstanding logging calls", tasks.Length));
             Task.WaitAll(tasks);
             LogLog.Debug(typeof(AsyncAzureTableAppender), "Completing close");
+        }
+
+        private ITableEntity[] GetLogEntities(LoggingEvent @event)
+        {
+            var baseEntity = this.GetLogEntity(@event);
+
+            var message = GetMessage(baseEntity) ?? "";
+            if (message.Length <= MaxMessageSize)
+                return new[] { baseEntity };
+
+            var messageParts = message.Batch(MaxMessageSize).Select(i => new string(i.ToArray())).ToList();
+            return messageParts.Select((m, ix) =>
+            {
+                // build the entity with updated message/Sequence number
+                var entity = this.GetLogEntity(@event, m, ix);
+
+                // setup the RowKey such that you could sort descending and reassemble
+                entity.RowKey = string.Format("{0}.{1:d5}", baseEntity.RowKey, messageParts.Count - ix - 1);
+
+                return entity;
+            }).ToArray();
+        }
+
+        protected ITableEntity GetLogEntity(LoggingEvent @event, string message, int sequenceNumber)
+        {
+            if (Layout != null)
+            {
+                return new AzureLayoutLoggingEventEntity(@event, PartitionKeyType, Layout, message, sequenceNumber);
+            }
+
+            return PropAsColumn
+                ? (ITableEntity)new AzureDynamicLoggingEventEntity(@event, PartitionKeyType, message, sequenceNumber)
+                : new AzureLoggingEventEntity(@event, PartitionKeyType, message, sequenceNumber);
+        }
+
+        private string GetMessage(ITableEntity entity)
+        {
+            var eventEntity = entity as AzureDynamicLoggingEventEntity;
+            if (eventEntity != null)
+            {
+                return (string)eventEntity["message"];
+            }
+            var layoutEvent = entity as AzureLayoutLoggingEventEntity;
+            if (layoutEvent != null)
+            {
+                return layoutEvent.Message;
+            }
+            var loggingEvent = entity as AzureLoggingEventEntity;
+            if (loggingEvent != null)
+            {
+                return loggingEvent.Message;
+            }
+
+            throw new NotSupportedException();
         }
     }
 }

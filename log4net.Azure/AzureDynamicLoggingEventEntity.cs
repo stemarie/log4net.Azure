@@ -36,5 +36,11 @@ namespace log4net.Appender
             PartitionKey = e.MakePartitionKey(partitionKeyType);
             RowKey = e.MakeRowKey();
         }
+
+        public AzureDynamicLoggingEventEntity(LoggingEvent e, PartitionKeyTypeEnum partitionKeyType, string message, int sequenceNumber) : this(e, partitionKeyType)
+        {
+            this["Message"] = message;
+            this["SequenceNumber"] = sequenceNumber;
+        }
     }
 }
