@@ -1,15 +1,9 @@
 ﻿using log4net.Appender.Language;
 using log4net.Core;
 using log4net.Layout;
-using Microsoft.Azure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace log4net.Appender
